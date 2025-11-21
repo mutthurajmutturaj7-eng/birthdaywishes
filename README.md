@@ -12,7 +12,7 @@
       color: #fff;
       text-align: center;
       overflow-x: hidden;
-      background: url('pink-gold-glitter.gif');
+      background: linear-gradient(135deg, #ff4fa3, #ffb6c8);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -23,13 +23,13 @@
 
     /* Heart floating particles */
     .heart {
-      position: fixed;
+      position: absolute;
       bottom: -20px;
       font-size: 22px;
-      opacity: 0.8;
+      opacity: 0.7;
       animation: floatUp 6s linear infinite;
       color: #ff79c6;
-      text-shadow: 0 0 8px gold;
+      z-index: 0;
     }
     @keyframes floatUp {
       0% { transform: translateY(0) scale(1); opacity: 1; }
@@ -37,15 +37,7 @@
     }
 
     /* Name Animation */
-    .name-animate {
-      font-size: 48px;
-      font-weight: 700;
-      color: #ffdede;
-      text-shadow: 0 0 20px gold;
-      animation: glowName 2.5s ease-in-out infinite alternate;
-      margin-top: 160px;
-    }
-    @keyframes glowName {
+        @keyframes glowName {
       0% { text-shadow: 0 0 10px gold, 0 0 20px #ff4fa3; }
       100% { text-shadow: 0 0 25px gold, 0 0 40px #ff9ed6; }
     }
@@ -198,7 +190,7 @@
   </script>
 
   <div class="reveal">
-    <div class="name-animate">Happy Birthday PAPANI ❤️✨</div>
+    
 
     <div class="cake-section" style="margin-top: 40px;">
       <img src="cake.png" class="cake-animated" alt="Cake" />
@@ -229,5 +221,6 @@
 
 </body>
 </html>
+
 
 
