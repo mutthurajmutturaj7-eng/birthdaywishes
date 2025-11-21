@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -69,30 +68,53 @@
 </head>
 <body>
 
-  <!-- PARTY BLAST -->
-  <div id="blast">🎉🎉🎉 HAPPY BIRTHDAY PAPANI 🎉🎉🎉</div>
+  <!-- FIREWORKS ANIMATION -->
+  <div id="fireworks"></div>
 
-  <!-- MUSIC -->
-  <audio autoplay loop>
-    <source src="song.mp3" type="audio/mpeg" />
-  </audio>
+  <style>
+    #fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 99999;
+      animation: fadeOut 4s ease-in-out forwards;
+    }
+  </style>
 
-  <h1 style="margin-top: 120px; font-size: 40px; text-shadow: 0 0 15px gold;">Happy Birthday PAPANI ❤️🎉</h1>
+  <script>
+    // Simple fireworks effect
+    for (let i = 0; i < 30; i++) {
+      let spark = document.createElement('div');
+      spark.style.position = 'absolute';
+      spark.style.width = '6px';
+      spark.style.height = '6px';
+      spark.style.borderRadius = '50%';
+      spark.style.background = 'gold';
+      spark.style.top = Math.random() * 100 + '%';
+      spark.style.left = Math.random() * 100 + '%';
+      spark.style.boxShadow = '0 0 12px gold';
+      spark.style.animation = 'boom 1s ease-out forwards';
+      document.getElementById('fireworks').appendChild(spark);
+    }
+  </script>
 
-  <!-- Cake Section -->
+  <h1 style="margin-top: 160px; font-size: 42px; text-shadow: 0 0 20px gold;">Happy Birthday PAPANI ❤️🎉</h1>
+
   <div class="cake-section">
     <img src="cake.png" class="cake-img" alt="Cake" />
 
-    <br />
-
-    <!-- Pinned Photo -->
+    <!-- Correct pinned image -->
     <img src="/mnt/data/WhatsApp Image 2025-11-21 at 5.22.48 PM.jpeg" class="photo-pin" alt="Pinned Photo" />
 
     <div class="message-box">
-      Sorry for everything I have done & I LOVE YOU HENDTHI ❤️<br />
-      ಕ್ಷಮಿಸು ನನ್ನ ತಪ್ಪುಗಳನ್ನ… ನಾನು ನಿನ್ನನ್ನು ತುಂಬಾ ಪ್ರೀತಿಸುತ್ತೇನೆ 💖
+      <p>Sorry for everything I have done & I LOVE YOU HENDTHI ❤️</p>
+      <p style="font-size:20px; margin-top:10px;">ಕ್ಷಮಿಸು ನನ್ನ ತಪ್ಪುಗಳನ್ನ… ನಾನು ನಿನ್ನನ್ನು ತುಂಬಾ ಪ್ರೀತಿಸುತ್ತೇನೆ 💖</p>
     </div>
   </div>
 
 </body>
 </html>
+
