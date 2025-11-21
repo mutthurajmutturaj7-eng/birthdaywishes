@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -68,37 +69,85 @@
 </head>
 <body>
 
-  <!-- FIREWORKS ANIMATION -->
-  <div id="fireworks"></div>
-
-  <style>
-    #fireworks {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      z-index: 99999;
-      animation: fadeOut 4s ease-in-out forwards;
-    }
-  </style>
+  <!-- FULL SCREEN REAL FIREWORKS -->
+  <canvas id="fwCanvas"></canvas>
 
   <script>
-    // Simple fireworks effect
-    for (let i = 0; i < 30; i++) {
-      let spark = document.createElement('div');
-      spark.style.position = 'absolute';
-      spark.style.width = '6px';
-      spark.style.height = '6px';
-      spark.style.borderRadius = '50%';
-      spark.style.background = 'gold';
-      spark.style.top = Math.random() * 100 + '%';
-      spark.style.left = Math.random() * 100 + '%';
-      spark.style.boxShadow = '0 0 12px gold';
-      spark.style.animation = 'boom 1s ease-out forwards';
-      document.getElementById('fireworks').appendChild(spark);
+    // REALISTIC FIREWORKS EFFECT
+    const canvas = document.getElementById('fwCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    let fireworks = [];
+
+    class Firework {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height;
+        this.targetY = Math.random() * (canvas.height / 2);
+        this.speed = 4;
+        this.particles = [];
+        this.exploded = false;
+      }
+      update() {
+        if (!this.exploded) {
+          this.y -= this.speed;
+          if (this.y < this.targetY) this.explode();
+        }
+        this.particles.forEach(p => p.update());
+      }
+      explode() {
+        this.exploded = true;
+        for (let i = 0; i < 50; i++) this.particles.push(new Particle(this.x, this.y));
+        setTimeout(() => { this.remove = true; }, 1500);
+      }
+      draw() {
+        if (!this.exploded) {
+          ctx.fillStyle = 'gold';
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        this.particles.forEach(p => p.draw());
+      }
     }
+
+    class Particle {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.speed = Math.random() * 4 + 1;
+        this.angle = Math.random() * Math.PI * 2;
+        this.alpha = 1;
+      }
+      update() {
+        this.x += Math.cos(this.angle) * this.speed;
+        this.y += Math.sin(this.angle) * this.speed;
+        this.alpha -= 0.02;
+      }
+      draw() {
+        ctx.fillStyle = `rgba(255,215,0,${this.alpha})`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      fireworks.forEach((fw, i) => {
+        fw.update();
+        fw.draw();
+        if (fw.remove) fireworks.splice(i, 1);
+      });
+      if (Math.random() < 0.1) fireworks.push(new Firework());
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    setTimeout(() => {
+      document.getElementById('fwCanvas').style.display = 'none';
+    }, 5000);
   </script>
 
   <h1 style="margin-top: 160px; font-size: 42px; text-shadow: 0 0 20px gold;">Happy Birthday PAPANI ❤️🎉</h1>
@@ -106,7 +155,7 @@
   <div class="cake-section">
     <img src="cake.png" class="cake-img" alt="Cake" />
 
-    <!-- Correct pinned image -->
+    <!-- Correct pinned uploaded photo -->
     <img src="/mnt/data/WhatsApp Image 2025-11-21 at 5.22.48 PM.jpeg" class="photo-pin" alt="Pinned Photo" />
 
     <div class="message-box">
