@@ -9,61 +9,66 @@
       margin: 0;
       padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #ff4fa3, #ffb6c8);
       color: #fff;
       text-align: center;
       overflow-x: hidden;
+      background: url('pink-gold-glitter.gif');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
     }
 
-    /* PARTY BLAST */
-    #blast {
+    /* Remove photos */
+    .photo-pin { display: none !important; }
+
+    /* Heart floating particles */
+    .heart {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      font-size: 50px;
-      animation: fadeOut 3s ease-in-out forwards;
-    }
-
-    @keyframes fadeOut {
-      0% { opacity: 1; }
-      80% { opacity: 1; }
-      100% { opacity: 0; visibility: hidden; }
-    }
-
-    /* Cake Section */
-    .cake-section {
-      margin-top: 80px;
-    }
-
-    .cake-img {
-      width: 280px;
-      height: auto;
-      border-radius: 20px;
-      border: 4px solid gold;
-      box-shadow: 0 0 25px gold;
-    }
-
-    .message-box {
-      margin-top: 20px;
+      bottom: -20px;
       font-size: 22px;
-      font-weight: 600;
-      color: #fff;
-      text-shadow: 0 0 10px #ff007f;
+      opacity: 0.8;
+      animation: floatUp 6s linear infinite;
+      color: #ff79c6;
+      text-shadow: 0 0 8px gold;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
     }
 
-    .photo-pin {
-      width: 200px;
-      border-radius: 14px;
-      border: 4px solid gold;
-      margin-top: -50px;
-      box-shadow: 0 0 20px gold;
+    /* Name Animation */
+    .name-animate {
+      font-size: 48px;
+      font-weight: 700;
+      color: #ffdede;
+      text-shadow: 0 0 20px gold;
+      animation: glowName 2.5s ease-in-out infinite alternate;
+      margin-top: 160px;
+    }
+    @keyframes glowName {
+      0% { text-shadow: 0 0 10px gold, 0 0 20px #ff4fa3; }
+      100% { text-shadow: 0 0 25px gold, 0 0 40px #ff9ed6; }
+    }
+
+    /* Cake bounce */
+    .cake-animated {
+      width: 260px;
+      animation: bounce 2s infinite ease-in-out;
+      filter: drop-shadow(0 0 20px gold);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+
+    .reveal {
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in-out forwards;
+      animation-delay: 5s;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
@@ -193,18 +198,32 @@
   </script>
 
   <div class="reveal">
-    <h1 style="margin-top: 160px; font-size: 42px; text-shadow: 0 0 20px gold;">Happy Birthday PAPANI ❤️🎉</h1>
+    <div class="name-animate">Happy Birthday PAPANI ❤️✨</div>
 
-    <div class="cake-section">
+    <div class="cake-section" style="margin-top: 40px;">
       <img src="cake.png" class="cake-animated" alt="Cake" />
 
-      <!-- Correct pinned uploaded photo -->
-      <img src="/mnt/data/WhatsApp Image 2025-11-21 at 5.22.48 PM.jpeg" class="photo-pin" alt="Pinned Photo" />
-
-      <div class="message-box">
+      <div class="message-box" style="margin-top: 20px; font-size: 22px; font-weight: 600; color: #fff; text-shadow: 0 0 10px #ff007f;">
         <p>Sorry for everything I have done & I LOVE YOU HENDTHI ❤️</p>
         <p style="font-size:20px; margin-top:10px;">ಕ್ಷಮಿಸು ನನ್ನ ತಪ್ಪುಗಳನ್ನ… ನಾನು ನಿನ್ನನ್ನು ತುಂಬಾ ಪ್ರೀತಿಸುತ್ತೇನೆ 💖</p>
       </div>
+    </div>
+  </div>
+
+  <!-- Heart particles script -->
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerHTML = '❤️';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.fontSize = (20 + Math.random() * 20) + 'px';
+      heart.style.animationDuration = (4 + Math.random() * 4) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => { heart.remove(); }, 6000);
+    }
+    setInterval(createHeart, 400);
+  </script>
     </div>
   </div>
 
