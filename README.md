@@ -69,8 +69,49 @@
 </head>
 <body>
 
-  <!-- FULL SCREEN REAL FIREWORKS -->
-  <canvas id="fwCanvas"></canvas>
+  <!-- FULL SCREEN FIREWORKS OVERLAY BEFORE REVEAL -->
+  <div id="fwCover">
+    <canvas id="fwCanvas"></canvas>
+  </div>
+
+  <style>
+    #fwCover {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      z-index: 99999;
+    }
+    #fwCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .reveal {
+      opacity: 0;
+      animation: fadeIn 1.5s ease-in-out forwards;
+      animation-delay: 5s;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* Animated Cake */
+    .cake-animated {
+      width: 260px;
+      animation: bounce 2s infinite ease-in-out;
+      filter: drop-shadow(0 0 20px gold);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-18px); }
+    }
+  </style>
 
   <script>
     // REALISTIC FIREWORKS EFFECT
@@ -98,14 +139,14 @@
       }
       explode() {
         this.exploded = true;
-        for (let i = 0; i < 50; i++) this.particles.push(new Particle(this.x, this.y));
+        for (let i = 0; i < 70; i++) this.particles.push(new Particle(this.x, this.y));
         setTimeout(() => { this.remove = true; }, 1500);
       }
       draw() {
         if (!this.exploded) {
           ctx.fillStyle = 'gold';
           ctx.beginPath();
-          ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+          ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
           ctx.fill();
         }
         this.particles.forEach(p => p.draw());
@@ -140,30 +181,34 @@
         fw.draw();
         if (fw.remove) fireworks.splice(i, 1);
       });
-      if (Math.random() < 0.1) fireworks.push(new Firework());
+      if (Math.random() < 0.15) fireworks.push(new Firework());
       requestAnimationFrame(loop);
     }
     loop();
 
+    // REMOVE FIREWORK SCREEN AFTER 5 SECONDS
     setTimeout(() => {
-      document.getElementById('fwCanvas').style.display = 'none';
+      document.getElementById('fwCover').style.display = 'none';
     }, 5000);
   </script>
 
-  <h1 style="margin-top: 160px; font-size: 42px; text-shadow: 0 0 20px gold;">Happy Birthday PAPANI ❤️🎉</h1>
+  <div class="reveal">
+    <h1 style="margin-top: 160px; font-size: 42px; text-shadow: 0 0 20px gold;">Happy Birthday PAPANI ❤️🎉</h1>
 
-  <div class="cake-section">
-    <img src="cake.png" class="cake-img" alt="Cake" />
+    <div class="cake-section">
+      <img src="cake.png" class="cake-animated" alt="Cake" />
 
-    <!-- Correct pinned uploaded photo -->
-    <img src="/mnt/data/WhatsApp Image 2025-11-21 at 5.22.48 PM.jpeg" class="photo-pin" alt="Pinned Photo" />
+      <!-- Correct pinned uploaded photo -->
+      <img src="/mnt/data/WhatsApp Image 2025-11-21 at 5.22.48 PM.jpeg" class="photo-pin" alt="Pinned Photo" />
 
-    <div class="message-box">
-      <p>Sorry for everything I have done & I LOVE YOU HENDTHI ❤️</p>
-      <p style="font-size:20px; margin-top:10px;">ಕ್ಷಮಿಸು ನನ್ನ ತಪ್ಪುಗಳನ್ನ… ನಾನು ನಿನ್ನನ್ನು ತುಂಬಾ ಪ್ರೀತಿಸುತ್ತೇನೆ 💖</p>
+      <div class="message-box">
+        <p>Sorry for everything I have done & I LOVE YOU HENDTHI ❤️</p>
+        <p style="font-size:20px; margin-top:10px;">ಕ್ಷಮಿಸು ನನ್ನ ತಪ್ಪುಗಳನ್ನ… ನಾನು ನಿನ್ನನ್ನು ತುಂಬಾ ಪ್ರೀತಿಸುತ್ತೇನೆ 💖</p>
+      </div>
     </div>
   </div>
 
 </body>
 </html>
+
 
