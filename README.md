@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -25,18 +24,35 @@ canvas {
     z-index: 1;
 }
 
-/* Typewriter Message */
+/* Main Message */
 #message {
     position: fixed;
-    top: 55vh;
+    top: 50vh;
     left: 50%;
     transform: translateX(-50%);
-    width: 90vw;
+    width: 92vw;
     text-align: center;
     font-size: 5vw;
     font-weight: 700;
     color: #fff5d9;
-    text-shadow: 0 0 8px #fff, 0 0 20px #ffd98c;
+    text-shadow: 0 0 8px #fff, 0 0 22px #ffd98c;
+    opacity: 0;
+    z-index: 3;
+    line-height: 1.4;
+}
+
+/* Sub message (2 lines) */
+#submsg {
+    position: fixed;
+    top: 67vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92vw;
+    text-align: center;
+    font-size: 4.2vw;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 0 8px #fff, 0 0 18px #ffbadb;
     opacity: 0;
     z-index: 3;
     line-height: 1.4;
@@ -72,7 +88,9 @@ canvas {
 <body>
 
 <canvas id="fireworks"></canvas>
+
 <div id="message"></div>
+<div id="submsg"></div>
 
 <audio id="bgm" loop>
     <source src="https://files.catbox.moe/7j9nfm.mp3" type="audio/mpeg">
@@ -114,24 +132,32 @@ document.addEventListener("touchstart", e => {
     triggerBurst(t.pageX, t.pageY);
 });
 
-/* Typewriter */
-const text = "SORRY FOR EVERYTHING. I LOVE YOU WIFE ❤️\nHAPPY BIRTHDAY PAPANI 💫";
+/* Typewriter Main Message */
+const mainText = "SORRY FOR EVERYTHING. I LOVE YOU WIFE ❤️\nHAPPY BIRTHDAY PAPANI 💫";
 const msgBox = document.getElementById("message");
 
-function typeWriter(i = 0) {
+function typeWriter(text, i = 0) {
     if (i === 0) msgBox.innerHTML = "";
     if (i < text.length) {
         msgBox.innerHTML += text.charAt(i);
-        setTimeout(() => typeWriter(i + 1), 70);
+        setTimeout(() => typeWriter(text, i + 1), 70);
     }
 }
 
+/* Sub message fade-in */
+const subMsg = document.getElementById("submsg");
+setTimeout(() => {
+    subMsg.style.opacity = 1;
+    subMsg.innerHTML = "You are the smile in my heart,<br>the love I never want to lose ❤️";
+}, 5200);
+
+/* Start Message Reveal */
 setTimeout(() => {
     msgBox.style.opacity = 1;
-    typeWriter();
-}, 2800);
+    typeWriter(mainText);
+}, 2500);
 
-/* Fireworks (lighter for phones) */
+/* Fireworks (optimized for phones) */
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
 
@@ -180,6 +206,7 @@ animate();
 
 </body>
 </html>
+
 
 
 
