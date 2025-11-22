@@ -2,184 +2,162 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Birthday PAPANI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body {
-  margin: 0;
-  overflow: hidden;
-  background: linear-gradient(#ff94c2, #ff4f81);
-  font-family: "Poppins", sans-serif;
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(135deg, #ff77b4, #ffb7d5);
+    font-family: "Poppins", sans-serif;
+    color: #ffeccd;
 }
 
-/* Floating hearts background */
-.hearts {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.heart {
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background: pink;
-  transform: rotate(45deg);
-  opacity: 0.6;
-  animation: float 6s infinite ease-in;
-}
-
-.heart:before,
-.heart:after {
-  content: "";
-  position: absolute;
-  width: 15px;
-  height: 15px;
-  background: pink;
-  border-radius: 50%;
-}
-
-.heart:before { top: -8px; }
-.heart:after { left: -8px; }
-
-@keyframes float {
-  0% { transform: translateY(0) rotate(45deg); opacity: 0.8; }
-  100% { transform: translateY(-800px) rotate(45deg); opacity: 0; }
-}
-
-/* Typewriter message */
+/* Typewriter Message */
 #message {
-  position: absolute;
-  top: 55%;
-  width: 100%;
-  text-align: center;
-  font-size: 26px;
-  color: gold;
-  font-weight: bold;
-  text-shadow: 0 0 10px white, 0 0 25px gold;
-  opacity: 0;
-  z-index: 5;
+    position: absolute;
+    top: 55%;
+    width: 100%;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px #fff6d9, 0 0 25px #ffdf8c;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
 }
 
-/* Heart burst tap animation */
+/* Floating Hearts Background */
+.heart {
+    position: fixed;
+    bottom: -10vh;
+    font-size: 18px;
+    color: rgba(255,255,255,0.8);
+    animation: floatUp 6s linear infinite;
+}
+@keyframes floatUp {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-120vh); opacity: 0; }
+}
+
+/* Heart Burst on Tap */
 .burst {
-  position: absolute;
-  color: red;
-  font-size: 25px;
-  animation: burstAnim 0.8s forwards ease-out;
+    position: fixed;
+    font-size: 28px;
+    animation: burstAnim 0.8s ease-out forwards;
+}
+@keyframes burstAnim {
+    from { transform: scale(0.2); opacity: 1; }
+    to { transform: scale(2.2); opacity: 0; }
 }
 
-@keyframes burstAnim {
-  0% { transform: scale(0.3); opacity: 1; }
-  100% { transform: scale(2.5); opacity: 0; }
+canvas {
+    position: absolute;
+    top: 0; left: 0;
 }
 </style>
 </head>
 <body>
 
 <canvas id="fireworks"></canvas>
-<div class="hearts" id="hearts"></div>
 
 <div id="message"></div>
 
-<audio id="music" autoplay loop>
-  <source src="https://files.catbox.moe/6u4h1p.mp3">
+<audio id="bgm" autoplay loop>
+    <source src="https://files.catbox.moe/7j9nfm.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-// Floating hearts generator
-function createHearts() {
-  const container = document.getElementById("hearts");
-  for (let i = 0; i < 25; i++) {
-    let h = document.createElement("div");
-    h.className = "heart";
-    h.style.left = Math.random() * window.innerWidth + "px";
-    h.style.top = window.innerHeight + "px";
-    h.style.animationDuration = (4 + Math.random() * 5) + "s";
-    container.appendChild(h);
-  }
+/* Floating Hearts Generator */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = 4 + Math.random() * 4 + "s";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
 }
-createHearts();
+setInterval(createHeart, 400);
 
-// Typewriter Message Reveal
-const msg = "SORRY FOR EVERYTHING. I LOVE YOU WIFE ❤️\nHAPPY BIRTHDAY PAPANI 🎂💖";
-let index = 0;
-function typeWriter() {
-  const messageBox = document.getElementById("message");
-  messageBox.style.opacity = 1;
-  if (index < msg.length) {
-    messageBox.innerHTML += msg.charAt(index);
-    index++;
-    setTimeout(typeWriter, 70);
-  }
+/* Heart Burst on Tap */
+document.addEventListener("click", (e) => {
+    const burst = document.createElement("div");
+    burst.className = "burst";
+    burst.innerHTML = "💖";
+    burst.style.left = e.pageX + "px";
+    burst.style.top = e.pageY + "px";
+    document.body.appendChild(burst);
+    setTimeout(() => burst.remove(), 800);
+});
+
+/* Typewriter Reveal */
+const msg = "SORRY FOR EVERYTHING. I LOVE YOU WIFE ❤️I MISS YOU EVERY UNIVERS❤️\nHAPPY BIRTHDAY PAPANI 💫";
+const messageDiv = document.getElementById("message");
+
+function typeWriter(text, i = 0) {
+    if (i === 0) messageDiv.innerHTML = "";
+    if (i < text.length) {
+        messageDiv.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(text, i + 1), 80);
+    }
 }
 
-// Fireworks Canvas + Trigger Message
+setTimeout(() => {
+    messageDiv.style.opacity = 1;
+    typeWriter(msg);
+}, 3500);
+
+/* Fireworks Canvas */
 const canvas = document.getElementById("fireworks");
 const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+resizeCanvas();
 
-let particles = [];
+window.addEventListener("resize", resizeCanvas);
 
-function firework() {
-  const x = Math.random() * canvas.width;
-  const y = Math.random() * canvas.height / 2;
-  for (let i = 0; i < 60; i++) {
-    particles.push({
-      x: x,
-      y: y,
-      angle: Math.random() * 2 * Math.PI,
-      speed: Math.random() * 3 + 2,
-      size: Math.random() * 3,
-      alpha: 1
-    });
-  }
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
+
+let fireworks = [];
+
+function createFirework() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height * 0.6;
+    const count = 40;
+    for (let i = 0; i < count; i++) {
+        fireworks.push({
+            x, y,
+            angle: (Math.PI * 2 * i) / count,
+            radius: 0,
+            maxRadius: 60 + Math.random() * 50,
+            alpha: 1
+        });
+    }
+}
+setInterval(createFirework, 500);
 
 function animateFireworks() {
-  ctx.fillStyle = "rgba(0,0,0,0.2)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  particles.forEach((p, i) => {
-    p.x += Math.cos(p.angle) * p.speed;
-    p.y += Math.sin(p.angle) * p.speed;
-    p.alpha -= 0.015;
-
-    ctx.fillStyle = `rgba(255,215,0,${p.alpha})`;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-    ctx.fill();
-
-    if (p.alpha <= 0) particles.splice(i, 1);
-  });
-
-  requestAnimationFrame(animateFireworks);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    fireworks.forEach((fw, i) => {
+        fw.radius += 2;
+        fw.alpha -= 0.015;
+        const fx = fw.x + Math.cos(fw.angle) * fw.radius;
+        const fy = fw.y + Math.sin(fw.angle) * fw.radius;
+        ctx.fillStyle = `rgba(255,255,255,${fw.alpha})`;
+        ctx.beginPath();
+        ctx.arc(fx, fy, 3, 0, Math.PI * 2);
+        ctx.fill();
+        if (fw.alpha <= 0) fireworks.splice(i, 1);
+    });
+    requestAnimationFrame(animateFireworks);
 }
-
-// Start fireworks and message timing
-firework();
 animateFireworks();
-
-// MESSAGE REVEAL AFTER 2 SECONDS
-setTimeout(typeWriter, 2000);
-
-// Heart burst tap effect
-document.addEventListener("click", function(e) {
-  let h = document.createElement("div");
-  h.className = "burst";
-  h.style.left = e.clientX + "px";
-  h.style.top = e.clientY + "px";
-  h.innerHTML = "❤️";
-  document.body.appendChild(h);
-  setTimeout(() => h.remove(), 800);
-});
 </script>
 
 </body>
 </html>
+
 
 
 
